@@ -1,0 +1,27 @@
+-- jawaban no 1
+create table transaksi (
+	id serial primary key,
+	tanggal_order date not null,
+	status_pelunasan varchar(255),
+	tanggal_pembayaran date
+);
+
+-- jawaban no 2
+create table detail_transaksi (
+	id serial primary key,
+	harga int not null,
+	jumlah int not null,
+	subtotal int not null,
+	detail_transaksi_id int,
+	constraint fk_detail_transaksi_id
+	foreign key(detail_transaksi_id) references transaksi(id)
+);
+
+insert into transaksi (tanggal_order, status_pelunasan,tanggal_pembayaran) values ('15/02/2021', 'lunas', '15/03/2021');
+insert into transaksi (tanggal_order, status_pelunasan,tanggal_pembayaran) values ('15/05/2021', 'lunas', '15/06/2021');
+
+insert into detail_transaksi (harga, jumlah, subtotal, transaksi_id) values (10000, 5, 50000, 1);
+insert into detail_transaksi (harga, jumlah, subtotal, transaksi_id) values (20000, 5, 100000, 2);
+
+-- jawaban no 3
+select dt.id, t.tanggal_order, t.status_pelunasan, t.tanggal_pembayaran, dt.subtotal as total, dt.jumlah as jumlah_barang from detail_transaksi dt join transaksi t on dt.transaksi_id = t.id;
